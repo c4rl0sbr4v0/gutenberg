@@ -72,6 +72,31 @@ const DropdownAndDropdownMenuExample = () => {
 					) }
 				/>
 			</div>
+			<div>
+				<p>This is a crashing component</p>
+				<Dropdown
+					className="container"
+					contentClassName="content"
+					renderToggle={ ( { isOpen, onToggle, onClose } ) => [
+						<button
+							key="open"
+							className="open"
+							aria-expanded={ isOpen }
+							onClick={ onToggle }
+						>
+							Toggleee
+						</button>,
+						<button
+							key="close"
+							className="close"
+							onClick={ onClose }
+						>
+							closee
+						</button>,
+					] }
+					renderContent={ () => null }
+				/>
+			</div>
 		</>
 	);
 };

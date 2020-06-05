@@ -1,4 +1,9 @@
 /**
+ * WordPress dependencies
+ */
+import { Component } from '@wordpress/element';
+
+/**
  * External dependencies
  */
 import TestUtils from 'react-dom/test-utils';
@@ -7,6 +12,12 @@ import TestUtils from 'react-dom/test-utils';
  * Internal dependencies
  */
 import Dropdown from '../';
+
+class Wrapper extends Component {
+	render() {
+		return this.props.children;
+	}
+}
 
 describe( 'Dropdown', () => {
 	const expectPopoverVisible = ( wrapper, visible ) => {
@@ -33,16 +44,18 @@ describe( 'Dropdown', () => {
 		};
 
 		const wrapper = TestUtils.renderIntoDocument(
-			<Dropdown
-				className="container"
-				contentClassName="content"
-				renderToggle={ ( { isOpen, onToggle } ) => (
-					<button aria-expanded={ isOpen } onClick={ onToggle }>
-						Toggleee
-					</button>
-				) }
-				renderContent={ () => <span>test</span> }
-			/>
+			<Wrapper>
+				<Dropdown
+					className="container"
+					contentClassName="content"
+					renderToggle={ ( { isOpen, onToggle } ) => (
+						<button aria-expanded={ isOpen } onClick={ onToggle }>
+							Toggleee
+						</button>
+					) }
+					renderContent={ () => <span>test</span> }
+				/>
+			</Wrapper>
 		);
 
 		expectButtonExpanded( wrapper, false );
@@ -56,24 +69,30 @@ describe( 'Dropdown', () => {
 
 	it( 'should close the dropdown when calling onClose', () => {
 		const wrapper = TestUtils.renderIntoDocument(
-			<Dropdown
-				className="container"
-				contentClassName="content"
-				renderToggle={ ( { isOpen, onToggle, onClose } ) => [
-					<button
-						key="open"
-						className="open"
-						aria-expanded={ isOpen }
-						onClick={ onToggle }
-					>
-						Toggleee
-					</button>,
-					<button key="close" className="close" onClick={ onClose }>
-						closee
-					</button>,
-				] }
-				renderContent={ () => null }
-			/>
+			<Wrapper>
+				<Dropdown
+					className="container"
+					contentClassName="content"
+					renderToggle={ ( { isOpen, onToggle, onClose } ) => [
+						<button
+							key="open"
+							className="open"
+							aria-expanded={ isOpen }
+							onClick={ onToggle }
+						>
+							Toggleee
+						</button>,
+						<button
+							key="close"
+							className="close"
+							onClick={ onClose }
+						>
+							closee
+						</button>,
+					] }
+					renderContent={ () => null }
+				/>
+			</Wrapper>
 		);
 
 		expectPopoverVisible( wrapper, false );
